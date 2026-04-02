@@ -1,5 +1,5 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import * as bcrypt from 'bcrypt';
+import { Injectable } from '@nestjs/common';
+import { hash } from 'bcryptjs';
 import { PrismaService } from '../prisma/prisma.service';
 import { User } from '@prisma/client';
 
@@ -15,12 +15,12 @@ export class UsersService {
     password: string,
     refreshToken?: string,
   ): Promise<User> {
-    const hash = await bcrypt.hash(password, this.saltRounds);
+    const bcryptHash = await hash(password, this.saltRounds);
     return this.prisma.user.create({
       data: {
         name,
         email,
-        password: hash,
+        password: bcryptHash,
         refreshToken: refreshToken || null,
       },
     });
