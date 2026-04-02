@@ -12,7 +12,12 @@
     "esModuleInterop": true,
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "ignoreDeprecations": "6.0",
-    "types": ["node"]
+    "types": ["node"],
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    },
   },
   "include": ["src/**/*", "vite.config.js"]
 }

@@ -4,7 +4,7 @@ import { resolve } from "path"
 
 export default defineConfig({
   plugins: [vue()],
-  root: ".",                            
+  root: "src",                            
   build: {
     outDir: resolve(__dirname, "dist"),
     emptyOutDir: true,                  
@@ -14,10 +14,4 @@ export default defineConfig({
       "@": resolve(__dirname, "src"),
     },
   },
-  compilerOptions: {
-    baseUrl: __dirname,
-    paths: {
-      "@/*": ["src/*"]
-    }
-  }
 })
