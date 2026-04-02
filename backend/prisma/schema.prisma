@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(uuid())
+  name          String
+  email         String    @unique
+  password      String
+  refreshToken  String?   @unique
+  createdAt     DateTime  @default(now())
+}
+
+model Customer {
+  id      String    @id @default(uuid())
+  name    String
+  email   String    @unique
+  invoices Invoice[]
+}
+
+model Invoice {
+  id            String          @id @default(uuid())
+  number        String
+  amount        Float
+  issueDate     String
+  dueDate       String
+  status        InvoiceStatus   @default(PENDING)
+
+  customerId    String
+  customer      Customer        @relation(fields: [customerId], references: [id])
+
+  payments      Payment[]
+}
+
+enum InvoiceStatus {
+  PENDING
+  PAID
+  OVERDUE
+}
+
+model Payment {
+  id           String     @id @default(uuid())
+  amount       Float
+  paymentDate  String
+  invoiceId    String
+  invoice      Invoice    @relation(fields: [invoiceId], references: [id])
+}
+
+model OutboxEvent {
+  id         String    @id @default(uuid())
+  eventType  String
+  payload    Json
+  processed  Boolean   @default(false)
+  processedAt DateTime?
+  createdAt  DateTime  @default(now())
+
+  @@index([processed])
+}

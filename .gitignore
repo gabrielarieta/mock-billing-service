@@ -1,0 +1,30 @@
+# Backend (NestJS)
+backend/dist/
+backend/node_modules/
+backend/.env
+backend/prisma/migrations/
+backend/coverage/
+
+# Frontend (Vite/Vue/React)
+frontend/dist/
+frontend/node_modules/
+frontend/.env
+frontend/.vite/
+
+# Database
+*.db
+*.sqlite
+
+# IDEs
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Tests
+coverage/
+.nyc_output/
