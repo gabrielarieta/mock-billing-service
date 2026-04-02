@@ -4,13 +4,20 @@ import { resolve } from "path"
 
 export default defineConfig({
   plugins: [vue()],
+  root: ".",                            
   build: {
-    outDir: "../dist"
+    outDir: resolve(__dirname, "dist"),
+    emptyOutDir: true,                  
   },
-  root: "src",
   resolve: {
     alias: {
       "@": resolve(__dirname, "src"),
     },
   },
+  compilerOptions: {
+    baseUrl: __dirname,
+    paths: {
+      "@/*": ["src/*"]
+    }
+  }
 })

@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { ClientsModule, Transport } from '@nestjs/microservices';
 import { PrismaModule } from './prisma/prisma.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
@@ -15,24 +14,13 @@ import { HealthController } from './health.controller';
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     PrismaModule,
-    ClientsModule.register([
-      {
-        name: 'BILLING_SERVICE',
-        transport: Transport.RMQ,
-        options: {
-          urls: [process.env.RABBITMQ_URL || 'amqp://localhost:5672'],
-          queue: process.env.RABBITMQ_QUEUE || 'billing_queue',
-          queueOptions: { durable: true },
-        },
-      },
-    ]),
+    BillingModule,
     UsersModule,
     AuthModule,
     CustomersModule,
     InvoicesModule,
     PaymentsModule,
     OutboxModule,
-    BillingModule,
   ],
   controllers: [HealthController],
 })

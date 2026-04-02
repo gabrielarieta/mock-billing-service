@@ -1,12 +1,16 @@
 FROM node:18-alpine
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
-COPY package*.json ./
-COPY vite.config.ts ./
-COPY src/ src/
+COPY package.json pnpm-lock.yaml* ./
 
 RUN npm install -g pnpm
 RUN pnpm install
 
+COPY . .
+
 RUN pnpm run build
+
+EXPOSE 3000
+
+CMD ["pnpm", "run", "start:prod"]
